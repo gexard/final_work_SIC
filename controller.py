@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 import time
 
 broker_address = "127.0.0.1"
-publisher_client = mqtt.Clietn("Controller Publisher")
+publisher_client = mqtt.Client("Controller Publisher")
 publisher_client.connect(broker_address)
 
 def on_messages(client,userdata,message):
@@ -28,6 +28,7 @@ listener_client.subscribe("Tanks/heights/#")
 def controller():
     controller.q = 0.1*controller.h1 + 0.1*controller.h2 + 0.1*controller.h3
     publisher_client.publish("Tanks/flows/q", controller.q)
+    print(controller.q)
 
 # Controller parameters
 controller.h1 = 0

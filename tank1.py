@@ -21,13 +21,13 @@ listener_client.subscribe("Tanks/flows/q")
 
 # Tank dynamics
 def tank1():
-    tank1.h = tank1.q + 0.001
+    tank1.h1 = tank1.q + 1.00
     publisher_client.publish("Tanks/heights/h1",tank1.h1)
-    print("sending Tank 1 h1: " + str(tank1.h))
+    print("sending Tank 1 h1: " + str(tank1.h1))
 
 # Tank parameters
 tank1.q = 0
-tank1.h1 = 1
+tank1.h1 = 0
 
 while True:
     tank1()

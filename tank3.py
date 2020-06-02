@@ -21,7 +21,7 @@ listener_client.subscribe("Tanks/heights/h2")
 
 # Tank dynamics
 def tank3():
-    tank3.h3 = tank3.h2 + 0.1
+    tank3.h3 = tank3.h2 + 0.01
     publisher_client.publish("Tanks/heights/h3",tank3.h3)
     print("sending Tank 3 h3: " + str(tank3.h3))
 
