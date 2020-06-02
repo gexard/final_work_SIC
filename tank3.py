@@ -17,12 +17,12 @@ listener_client.on_message = h2_received
 listener_client.connect(broker_address)
 listener_client.loop_start()
 
-listener_client.subscribe("Tank2/h2")
+listener_client.subscribe("Tanks/heights/h2")
 
 # Tank dynamics
 def tank3():
     tank3.h3 = tank3.h2 + 0.1
-    publisher_client.publish("Tank3/h3",tank3.h3)
+    publisher_client.publish("Tanks/heights/h3",tank3.h3)
     print("sending Tank 3 h3: " + str(tank3.h3))
 
 # Tank parameters

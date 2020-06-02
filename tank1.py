@@ -17,12 +17,12 @@ listener_client.on_message = q_received
 listener_client.connect(broker_address)
 listener_client.loop_start()
 
-listener_client.subscribe("Tank1/q")
+listener_client.subscribe("Tanks/flows/q")
 
 # Tank dynamics
 def tank1():
     tank1.h = tank1.q + 0.001
-    publisher_client.publish("Tank1/h1",tank1.h1)
+    publisher_client.publish("Tanks/heights/h1",tank1.h1)
     print("sending Tank 1 h1: " + str(tank1.h))
 
 # Tank parameters
