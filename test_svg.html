@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Three Tanks</title>
+    </head>
+    <body>
+        <script src="svg-inject.js"></script>
+        <script src="canvasjs.min.js"></script>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script type="text/javascript" src="mqttws31.js"></script>
+
+
+        <div style="width: 100%; overflow: hidden;">
+            <div style="width: 450px; float: left;"> <img src="scheme.svg" onload="SVGInject(this,{makeIdsUnique:false})" /> </div>
+            <div id="chartContainer" style="height: 250px; width: 450px;">  </div>
+        </div>
+        <script>
+
+        //CREATE A CHART
+        var ip = location.host;
+        ip=ip.split(':')
+        var dps = [];
+        var dps2 = [];
+        var dps3 = [];
+
+        var d = new Date();
+        var offset=d.getTime()
+        var count=0;
+        var dataLength = 150;
+
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: false,
+            theme: "light2",
+            title:{
+                text: "HEIGHT LEVELS"
+            },
+            axisY:{
+                includeZero: true
+            },
+            data: [{        
+                type: "line",
+                name: "H1",
+                indexLabelFontSize: 16,
+                dataPoints: dps
+            },{        
+                type: "line",
+                name: "H2",
+                indexLabelFontSize: 16,
+                dataPoints: dps2
+            },{        
+                type: "line",
+                name: "H3",
+                indexLabelFontSize: 16,
+                dataPoints: dps3
+            }
+
+            ]
+        });
+
+
+
+        function onMessage (message) {
+            
+            if (message.topic=="Tanks/heights/h1"){
+                data=parseFloat(message.payloadString)
+                document.getElementById("h1").setAttribute('height', data*65); //the height of the objects is 65, we can change this later
+                document.getElementById("tv1").textContent= Math.round(data*100)/100;
+                d = new Date()
+                dps.push({
+                    x: (d.getTime()-offset)/1000,
+                    y: data+0
+                });
+
+            }   
+            if (message.topic=="Tanks/heights/h2"){
+                data=parseFloat(message.payloadString)
+                document.getElementById("h2").setAttribute('height', data*65);
+                document.getElementById("tv2").textContent= Math.round(data*100)/100;
+                dps2.push({
+                    x: (d.getTime()-offset)/1000,
+                    y: data+0
+                });
+
+            }
+            
+            if (message.topic=="Tanks/heights/h3"){
+                data=parseFloat(message.payloadString)
+                document.getElementById("h3").setAttribute('height', data*65);
+                document.getElementById("tv3").textContent= Math.round(data*100)/100;
+                d = new Date()
+                dps.push({
+                    x: (d.getTime()-offset)/1000,
+                    y: data+0
+                });
+
+            }   
+            if (dps.length > dataLength) {
+                dps.shift();
+            }
+            if (dps2.length > dataLength) {
+                dps2.shift();
+            }
+            if (dps3.length > dataLength) {
+                dps3.shift();
+            }
+            if (count==4){
+                count=0
+                chart.render();
+            }
+            count=count+1;
+            //console.log(data)
+        };
+        function onConnect(){
+            console.log("connected, now subscribe")
+            mosq.subscribe("Tanks/heights/+");
+        };
+
+        mosq = new Paho.Client(ip[0], 9001, "Testing");
+
+
+        mosq.onmessage =   onMessage;
+        mosq.onMessageArrived = onMessage;
+        mosq.connect({onSuccess:onConnect, cleanSession:true, keepAliveInterval:10});
+
+        </script>
+    </body>
+</html>
