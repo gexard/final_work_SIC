@@ -1,4 +1,4 @@
-# Authors: Fatma Nur Arabaci & Gerardo Sánchez
+# Author: Gerardo Sánchez
 # Date created: May 30, 2020
 
 import paho.mqtt.client as mqtt
@@ -11,7 +11,7 @@ sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 sock.bind(('localhost',7776))
 
 ################ WEBSOCKET sender
-addr = ("localhost",7777)
+sender_address = ("localhost",7777)
 senderSock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 senderSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -39,7 +39,7 @@ listener_client.subscribe("Tanks/constants/+")
 def tank2():
     ################ WEBSOCKET receiver
     data, addr = sock.recvfrom(1024)
-    print ("received  websocket message: ", data.decode())
+    #print ("received  websocket message: ", data.decode())
     tank2.h1 = float(data)#.decode()
 
     tank2.h2 = tank2.h1 + 0.10
@@ -48,8 +48,8 @@ def tank2():
 
     ################ WEBSOCKET sender
     data = str(tank2.h2)
-    if(senderSock.sendto(data.encode(),addr)):
-        print('Websocket is sending: ' + data)
+    if(senderSock.sendto(data.encode(), sender_address)):
+        #print('Websocket is sending: ' + data)
 
 # Tank parameters
 tank2.h1 = 0

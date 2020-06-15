@@ -1,4 +1,4 @@
-# Authors: Fatma Nur Arabaci & Gerardo Sánchez
+# Author: Gerardo Sánchez
 # Date created: May 28, 2020
 
 import paho.mqtt.client as mqtt
@@ -44,7 +44,7 @@ def tank1():
     ################ WEBSOCKET
     data = str(tank1.h1)
     if(senderSock.sendto(data.encode(),addr)):
-        print('Websocket is sending: ' + data)
+        #print('Websocket is sending: ' + data)
 
 # Tank parameters
 tank1.q = 0

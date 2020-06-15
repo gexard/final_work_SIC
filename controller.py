@@ -1,4 +1,4 @@
-# Authors: Fatma Nur Arabaci & Gerardo Sanchez
+# Author: Gerardo Sanchez
 # Date created: June 2, 2020
 
 import paho.mqtt.client as mqtt
