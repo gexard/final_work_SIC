@@ -45,6 +45,7 @@ def tank1():
     data = str(tank1.h1)
     if(senderSock.sendto(data.encode(),addr)):
         #print('Websocket is sending: ' + data)
+        pass
 
 # Tank parameters
 tank1.q = 0

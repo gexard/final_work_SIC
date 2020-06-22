@@ -50,6 +50,7 @@ def tank2():
     data = str(tank2.h2)
     if(senderSock.sendto(data.encode(), sender_address)):
         #print('Websocket is sending: ' + data)
+        pass
 
 # Tank parameters
 tank2.h1 = 0
